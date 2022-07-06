@@ -7,8 +7,8 @@ from random import randint
 def userpanel():
     
     while True:
-        print('\n\n')
-        print('Hello User')
+        print('\n')
+        print('Welcome to the Paradise               \n')
         print("""
 1)Make a Reservation
 2)CheckIn
@@ -53,8 +53,8 @@ def userpanel():
             guestid=1000000+randint(0,99999)
             rid=10000+randint(0,9999)           
             
-            cs.execute("insert into reservations values(%s,%s,%s,'%s','%s','%s',%s,%s,%s,%s)"
-            %(rid,guestid,pkchoice,ph,checkin_d,checkout_d,days,0,"NULL",cost))
+            cs.execute("insert into reservations values(%s,%s,%s,'%s','%s','%s',%s,%s,%s)"
+            %(rid,guestid,pkchoice,ph,checkin_d,checkout_d,days,"NULL",cost))
             cs.execute("insert into Guests values(%s,%s,'%s','%s','%s',Null)"
             %(guestid,rid,fname,lname,ph))
             db.commit()
@@ -67,7 +67,7 @@ def userpanel():
             result=cs.fetchall()
 
             reservation=result[0]
-            rid,gid,Pkcode,_,CheckIn,Checkout,_,CheckedIn,_,Expenses = reservation
+            rid,gid,Pkcode,_,CheckIn,Checkout,_,_,Expenses = reservation
             cs.execute('select * from packages where Pk_code=%s'%(Pkcode))
             package=cs.fetchall()[0]
             RoomType=package[2]
@@ -82,7 +82,7 @@ def userpanel():
 
             cs.execute('update Rooms set Status="Occupied",ReservationID=%s where RoomNo=%s'%(rid,roomchoice))
             cs.execute('update guests set RoomNo=%s where Guest_ID=%s' %(roomchoice,gid))
-            cs.execute('update reservations set CheckedIn=True,RoomNo=%s where Reservation_ID=%s'%(roomchoice,rid))
+            cs.execute('update reservations set RoomNo=%s where Reservation_ID=%s'%(roomchoice,rid))
             db.commit()
             print()
             print('Successfully CheckedIn Enjoy your stay',fname)
@@ -95,8 +95,8 @@ def userpanel():
                 print('Invalid Phone Number')
                 continue
             reservation=result[0]
-            rid,gid,Pkcode,_,CheckIn,Checkout,_,CheckedIn,RoomNo,Expenses = reservation
-            if CheckedIn==0:
+            rid,gid,Pkcode,_,CheckIn,Checkout,_,RoomNo,Expenses = reservation
+            if RoomNo=='Not CheckedIn':
                 print('You cannot CheckOut')
                 continue
 
