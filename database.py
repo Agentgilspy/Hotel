@@ -40,7 +40,6 @@ def startup():
                 CheckIn date not null,
                 CheckOut date not null,
                 Nights int,
-                CheckedIn boolean not null,
                 RoomNo int , 
                 Expenses int not null,
                 constraint check_PkCode check (PkCode between 1 and 12) 
