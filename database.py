@@ -104,11 +104,11 @@ def insert_values():
 
 
     #Reservations
-    cs.execute('insert into Reservations values(10001,1123456,1,"0561202794","2022/07/12","2022/07/15",3,0,839,2150)')
-    cs.execute('insert into Reservations values(10002,1234567,6,"0569312734","2022/07/02","2022/07/04",2,1,463,3100)')
-    cs.execute('insert into Reservations values(10115,1203945,4,"0564628228","2022/10/14","2022/10/19",5,0,794,3600)')
-    cs.execute('insert into Reservations values(10313,1987654,12,"0562323432","2022/12/30","2023/01/03",4,0,632,9200)')
-    cs.execute('insert into Reservations values(10932,1322492,11,"0561249248","2022/06/29","2022/07/07",8,1,104,13200)')        
+    cs.execute('insert into Reservations values(10001,1123456,1,"0561202794","2022/07/12","2022/07/15",3,Null,2150)')
+    cs.execute('insert into Reservations values(10002,1234567,6,"0569312734","2022/07/02","2022/07/04",2,Null,3100)')
+    cs.execute('insert into Reservations values(10115,1203945,4,"0564628228","2022/10/14","2022/10/19",5,Null,3600)')
+    cs.execute('insert into Reservations values(10313,1987654,12,"0562323432","2022/12/30","2023/01/03",4,Null,9200)')
+    cs.execute('insert into Reservations values(10932,1322492,11,"0561249248","2022/06/29","2022/07/07",8,Null,13200)')        
     
     #Rooms
     cs.execute('insert into Rooms values(101,1,"Vacant" ,"Standard",Null)')
