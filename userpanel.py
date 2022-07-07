@@ -9,7 +9,7 @@ def createReservation():
     cs.execute('select* from packages')
     r=cs.fetchall()
     print('Hotel name Packages \n\n')
-    print(tabulate(r , headers=['PkCode' , "People" , 'Room Type' , 'Package Details', 'Cost Per Night' , 'Tourism']))
+    print(tabulate(r , headers=['PkCode' , "People" , 'Room Type' , 'Package Details', 'Cost Per Night' , 'Tourism'],tablefmt='fancy_grid'))
     print('\n\n')
     
     pkchoice=int(input("Select the package:"))
@@ -64,7 +64,7 @@ def checkIn():
     print('\n')            
     print('\t Available Rooms \t')
     print('\n')
-    print(tabulate(rooms,headers=['RoomNo','Floor','Status','Type']))
+    print(tabulate(rooms,headers=['RoomNo','Floor','Status','Type'],tablefmt='fancy_grid'))
     print('\n')
     roomchoice=int(input('Enter room number:'))
     cs.execute('select * from Rooms where RoomNo=%s and Status="Vacant" and Type="%s"'
@@ -88,8 +88,7 @@ def checkIn():
     print('Name:%s %s'%(fname,lname))
     print('Phone Number:%s'%(phonenum))
     print('ReservationID:%s'%(rid))
-    print('RoomNo:%s'%(roomchoice))
-    
+    print('RoomNo:%s'%(roomchoice))    
 def checkOut():
     phonenum=input('Enter Phone Number:')
     cs.execute('select * from reservations where Phone_Number="%s"'%(phonenum))

@@ -18,7 +18,7 @@ def manageEmployees():
         if ch==1:
             cs.execute('select * from employees')
             result=cs.fetchall()
-            print(tabulate(result , headers=['Empcode','Name','Designation','Salary','Date of join']))
+            print(tabulate(result , headers=['Empcode','Name','Designation','Salary','Date of join'],tablefmt='fancy_grid'))
         
         elif ch==2:
             empcode=int(input('Enter empcode:'))
@@ -62,7 +62,7 @@ def manageReservations():
             cs.execute("select Reservation_ID,Guest_ID,PkCode,Phone_Number,CheckIn,Checkout,Nights,Case When RoomNo is null then 'Not CheckedIn' else RoomNo end as 'RoomNo' ,Expenses from reservations")
             result=cs.fetchall()
             print(tabulate(result ,
-                headers=['Reservation ID','Guest ID','PkCode','Phone Number','CheckIn','CheckOut','Nights','RoomNo','Expenses']))
+                headers=['Reservation ID','Guest ID','PkCode','Phone Number','CheckIn','CheckOut','Nights','RoomNo','Expenses'],tablefmt='fancy_grid'))
         elif ch==2:
             rid=int(input('Enter ReservationID:'))
             cs.execute('delete from reservations where Reservation_ID=%s'%(rid))
@@ -87,12 +87,12 @@ def manageGuests():
             cs.execute("select Guest_ID,Reservation_ID,First_Name,Last_Name,Phone_Number,Case When RoomNo is null then 'Not CheckedIn' else RoomNo end as 'RoomNo' from Guests")
             result=cs.fetchall()
             print(tabulate(result,
-            headers=['GuestID','ReservationID','First Name','Last Name','Phone Number','RoomNo']))
+            headers=['GuestID','ReservationID','First Name','Last Name','Phone Number','RoomNo'],tablefmt='fancy_grid'))
         elif ch==2:
             cs.execute('select * from Guests where RoomNo is not null')
             result=cs.fetchall()
             print(tabulate(result,
-            headers=['GuestID','ReservationID','First Name','Last Name','Phone Number','RoomNo']))
+            headers=['GuestID','ReservationID','First Name','Last Name','Phone Number','RoomNo'],tablefmt='fancy_grid'))
         elif ch==3:
             gid=int(input('Enter GuestID:'))
             cs.execute('delete from Guests where Guest_ID=%s'%(gid))
@@ -118,22 +118,22 @@ def manageRooms():
             cs.execute("select RoomNo,Floor,Status,Type,Case When ReservationID is null then 'Not Reserved' else ReservationID End as ReservationID from Rooms")
             result=cs.fetchall()
             print(tabulate(result,
-            headers=['RoomNo','Floor','Status','Type','ReservationID']))
+            headers=['RoomNo','Floor','Status','Type','ReservationID'],tablefmt='fancy_grid'))
         elif ch==2:
             cs.execute("select RoomNo,Floor,Status,Type from Rooms where Status='Vacant'")
             result=cs.fetchall()
             print(tabulate(result,
-            headers=['RoomNo','Floor','Status','Type']))
+            headers=['RoomNo','Floor','Status','Type'],tablefmt='fancy_grid'))
         elif ch==3:
             cs.execute("select * from Rooms where Status='Occupied'")
             result=cs.fetchall()
             print(tabulate(result,
-            headers=['RoomNo','Floor','Type','ReservationID']))
+            headers=['RoomNo','Floor','Type','ReservationID'],tablefmt='fancy_grid'))
         elif ch==4:
             cs.execute("select RoomNo,Floor,Type from Rooms where Status='Cleaning'")
             result=cs.fetchall()
             print(tabulate(result,
-            headers=['RoomNo','Floor','Type']))
+            headers=['RoomNo','Floor','Type'],tablefmt='fancy_grid'))
         elif ch==5:
             break
         
