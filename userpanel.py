@@ -79,13 +79,19 @@ def userpanel():
             print(tabulate(rooms,headers=['RoomNo','Floor','Status','Type']))
             print('\n')
             roomchoice=int(input('Enter room number:'))
+            cs.execute('select * from Rooms where RoomNo=%s and Status="Vacant" and Type="%s"'
+            %(roomchoice,RoomType))
+            selected=cs.fetchall()
+            if len(selected)==0:
+                print('Room not Availaible')
+                break;
 
             cs.execute('update Rooms set Status="Occupied",ReservationID=%s where RoomNo=%s'%(rid,roomchoice))
             cs.execute('update guests set RoomNo=%s where Guest_ID=%s' %(roomchoice,gid))
             cs.execute('update reservations set RoomNo=%s where Reservation_ID=%s'%(roomchoice,rid))
             db.commit()
             print()
-            print('Successfully CheckedIn Enjoy your stay',fname)
+            print('Successfully CheckedIn Enjoy your stay')
 
         elif ch==3:
             phonenum=input('Enter Phone Number:')
