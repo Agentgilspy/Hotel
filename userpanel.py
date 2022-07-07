@@ -87,7 +87,7 @@ def userpanel():
             selected=cs.fetchall()
             if len(selected)==0:
                 print('Room not Availaible')
-                break;
+                continue;
 
             cs.execute('update Rooms set Status="Occupied",ReservationID=%s where RoomNo=%s'%(rid,roomchoice))
             cs.execute('update guests set RoomNo=%s where Guest_ID=%s' %(roomchoice,gid))
