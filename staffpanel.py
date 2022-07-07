@@ -75,8 +75,29 @@ def manageGuests():
         print('1)View All Guests')
         print('2)View all Guests In the Hotel')
         print('3)Delete Guest Details')
+        print('4)Back')
 
         ch=int(input('Enter choice:'))
+        print()
+
+        if ch==1:
+            cs.execute("select Guest_ID,Reservation_ID,First_Name,Last_Name,Phone_Number,Case When RoomNo is null then 'Not CheckedIn' else RoomNo end as 'RoomNo' from Guests")
+            result=cs.fetchall()
+            print(tabulate(result,
+            headers=['GuestID','ReservationID','First Name','Last Name','Phone Number','RoomNo']))
+        elif ch==2:
+            cs.execute('select * from Guests where RoomNo is not null')
+            result=cs.fetchall()
+            print(tabulate(result,
+            headers=['GuestID','ReservationID','First Name','Last Name','Phone Number','RoomNo']))
+        elif ch==3:
+            gid=int(input('Enter GuestID:'))
+            cs.execute('delete from Guests where Guest_ID=%s'%(gid))
+            db.commit()
+            print('\nGuest Details Deleted')        
+        elif ch==4:
+            break
+
 def staffpanel():
     while True:
         os.system('cls')
