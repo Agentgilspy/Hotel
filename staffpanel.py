@@ -14,6 +14,7 @@ def manageEmployees():
             
         ch=int(input('Enter choice:'))
         print()
+        os.system('cls')
         if ch==1:
             cs.execute('select * from employees')
             result=cs.fetchall()
@@ -55,6 +56,7 @@ def manageReservations():
 
         ch=int(input('Enter choice:'))
         print()
+        os.system('cls')
 
         if ch==1:
             cs.execute("select Reservation_ID,Guest_ID,PkCode,Phone_Number,CheckIn,Checkout,Nights,Case When RoomNo is null then 'Not CheckedIn' else RoomNo end as 'RoomNo' ,Expenses from reservations")
@@ -79,6 +81,7 @@ def manageGuests():
 
         ch=int(input('Enter choice:'))
         print()
+        os.system('cls')
 
         if ch==1:
             cs.execute("select Guest_ID,Reservation_ID,First_Name,Last_Name,Phone_Number,Case When RoomNo is null then 'Not CheckedIn' else RoomNo end as 'RoomNo' from Guests")
@@ -98,6 +101,42 @@ def manageGuests():
         elif ch==4:
             break
 
+def manageRooms():
+    while True:
+        print('\nRoom Management\n')
+        print('1)View all Rooms')
+        print('2)View all Vacant Rooms')
+        print('3)View all Occupied Rooms')
+        print('4)View all Rooms with Cleaning Status')
+        print('5)Back')
+
+        ch=int(input('Enter choice:'))
+        print()
+        os.system('cls')
+
+        if ch==1:
+            cs.execute("select RoomNo,Floor,Status,Type,Case When ReservationID is null then 'Not Reserved' else ReservationID End as ReservationID from Rooms")
+            result=cs.fetchall()
+            print(tabulate(result,
+            headers=['RoomNo','Floor','Status','Type','ReservationID']))
+        elif ch==2:
+            cs.execute("select RoomNo,Floor,Status,Type from Rooms where Status='Vacant'")
+            result=cs.fetchall()
+            print(tabulate(result,
+            headers=['RoomNo','Floor','Status','Type']))
+        elif ch==3:
+            cs.execute("select * from Rooms where Status='Occupied'")
+            result=cs.fetchall()
+            print(tabulate(result,
+            headers=['RoomNo','Floor','Type','ReservationID']))
+        elif ch==4:
+            cs.execute("select RoomNo,Floor,Type from Rooms where Status='Cleaning'")
+            result=cs.fetchall()
+            print(tabulate(result,
+            headers=['RoomNo','Floor','Type']))
+        elif ch==5:
+            break
+        
 def staffpanel():
     while True:
         os.system('cls')
@@ -115,5 +154,7 @@ def staffpanel():
             manageReservations()
         elif ch==3:
             manageGuests()
+        elif ch==4:
+            manageRooms()
         elif ch==5:
             break
