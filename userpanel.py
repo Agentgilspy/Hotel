@@ -94,7 +94,17 @@ def userpanel():
             cs.execute('update reservations set RoomNo=%s where Reservation_ID=%s'%(roomchoice,rid))
             db.commit()
             print()
-            print('Successfully CheckedIn Enjoy your stay')
+            print('Successfully CheckedIn Enjoy your stay\n')
+            #Receipt
+            cs.execute('select * from Guests where Guest_ID=%s'%(gid))
+            guest=cs.fetchall()[0]
+            _,_,fname,lname,_,_=guest
+            print('Receipt\n')
+            print('Name:%s %s'%(fname,lname))
+            print('Phone Number:%s'%(phonenum))
+            print('ReservationID:%s'%(rid))
+            print('RoomNo:%s'%(roomchoice))
+            
 
         elif ch==3:
             phonenum=input('Enter Phone Number:')
