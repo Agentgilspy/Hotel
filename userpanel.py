@@ -123,6 +123,9 @@ def userpanel():
             fname,lname=cs.fetchall()[0]
 
             score=int(input('On a scale of 1-10 how would you rate your stay %s:'%(fname)))
+            if score<1 or score>10:
+                print('Invalid Score')
+                continue
             comments=input('Anything You want to say about your stay?\n')
             cs.execute('update Rooms set Status="Cleaning",ReservationID=NULL where RoomNo=%s'%(RoomNo))
             cs.execute('update Guests set RoomNo=Null where Guest_ID=%s'%(gid))
