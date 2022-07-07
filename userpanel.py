@@ -67,7 +67,10 @@ def userpanel():
             result=cs.fetchall()
 
             reservation=result[0]
-            rid,gid,Pkcode,_,CheckIn,Checkout,_,_,Expenses = reservation
+            rid,gid,Pkcode,_,CheckIn,Checkout,_,RoomNo,Expenses = reservation
+            if RoomNo!=None:
+                print('You have already CheckedIn')
+                continue
             cs.execute('select * from packages where Pk_code=%s'%(Pkcode))
             package=cs.fetchall()[0]
             RoomType=package[2]
