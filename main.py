@@ -8,10 +8,8 @@ from staffpanel import *
 startup()
 while True:
     os.system('cls')
-    print("""
-1)Staff
-2)User
-""")
+    print("\n1)Staff")
+    print("2)User\n")
     ch=int(input('Enter choice:'))
     os.system('cls')
     if ch==1:
