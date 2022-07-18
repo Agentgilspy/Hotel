@@ -18,7 +18,7 @@ def createReservation():
     cs.execute("select* from packages where pk_code=%s"%(pkchoice))
     r=cs.fetchall()
     package=r[0]
-    pkcode,_,_,_,cost,tourism=package 
+    pkcode,_,_,_,rate,tourism=package 
     print(f'Package {pkchoice} selected')
     checkIn=input('Enter Check in Date(yyyy/mm/dd):')
     checkOut=input('Enter Check Out Date(yyyy/mm/dd):')
@@ -32,7 +32,7 @@ def createReservation():
     fname=input('Enter first name:')
     lname=input('Enter last name:')
     ph=input("Enter phone number:")
-    cost*=days
+    cost=rate*days
     torsm=input("Do you want tourism(y/n):")
     if torsm=='y':
         cost+=tourism
