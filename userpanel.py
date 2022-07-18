@@ -111,9 +111,9 @@ def checkOut():
         return
     comments=input('Anything You want to say about your stay?\n')
     cs.execute('update Rooms set Status="Cleaning",ReservationID=NULL where RoomNo=%s'%(RoomNo))
-    cs.execute('update Guests set RoomNo=Null where Guest_ID=%s'%(gid))
+    cs.execute('delete from Guests where Guest_ID=%s'%(gid))
     cs.execute('delete from reservations where Reservation_ID=%s'%(rid))
-    cs.execute(f'insert into history values({gid},"{fname}","{lname}","{phonenum}",{Expenses},"{CheckIn}","{Checkout}",{score},"{comments}")')
+    cs.execute(f'insert into history values("{fname}","{lname}","{phonenum}",{Pkcode},{Expenses},"{CheckIn}","{Checkout}",{score},"{comments}")')
     db.commit()
 
     print()
