@@ -136,7 +136,69 @@ def manageRooms():
             headers=['RoomNo','Floor','Type'],tablefmt='fancy_grid'))
         elif ch==5:
             break
-        
+
+def dataAnalysis():
+    while True:
+        print('\nData Analysis\n')
+        print('1)View Visitor History')
+        print('2)Plot Bar Graph of Feedbacks (Pkcodes/Feedback)')
+        print('3)Plot Bar Graph of Visits (Month/Visits)')
+        print('4)Create a xlsx file of Visitor History')
+        print('5)Back')
+
+        ch=int(input('Enter choice:'))
+        os.system('cls')
+
+        if ch==1:
+            cs.execute('select * from history')
+            result=cs.fetchall()
+            print(tabulate(result,
+            headers=['First Name','Last Name','Phone Number','Pk_Code','Expenses',
+            'CheckIn','Checkout','FeedBack','Comments'],tablefmt='fancy_grid'))
+        elif ch==2:
+            cs.execute('select Pk_code,avg(feedback) from history group by Pk_code order by Pk_code')
+            result=cs.fetchall()
+            pkcodes=[str(row[0]) for row in result]
+            scores=[row[1] for row in result]
+            plt.bar(pkcodes,scores)
+            plt.title('Average Feedback Score')
+            plt.xlabel('Package Code')
+            plt.ylabel('Score')
+            plt.show()
+        elif ch==3:
+            cs.execute('select month(CheckIn),Count(Checkin) from history group by month(CheckIn) order by month(CheckIn);')
+            result=cs.fetchall()
+            months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec']
+            visits=[0,0,0,0,0,0,0,0,0,0,0,0,]
+            for row in result:
+                month=row[0]
+                count=row[1]
+                visits[month-1]=count
+            plt.bar(months,visits)
+            plt.title('Visits')
+            plt.xlabel('Month')
+            plt.ylabel('Visits')
+            plt.show()
+        elif ch==4:
+            cs.execute('select * from history')
+            result=cs.fetchall()
+            data={
+                "First Name" :[row[0] for row in result],
+                "Last Name" : [row[1] for row in result],
+                "Phone Number" : [row[2] for row in result],
+                "Pk_Code":[row[3] for row in result],
+                "Expenses" :[row[4] for row in result],
+                "CheckIn":[row[5] for row in result],
+                "Checkout":[row[6] for row in result],
+                "Feedback":[row[7] for row in result],
+                "Comments" :[row[8] for row in result]
+            }
+            dt=pd.DataFrame(data)
+            dt.to_excel('Visitors.xlsx',index=False)
+            os.system('Visitors.xlsx')
+        elif ch==5:
+            break
+
 def staffpanel():
     while True:
         os.system('cls')
@@ -144,7 +206,8 @@ def staffpanel():
         print('2)Manage Reservations')
         print('3)Manage Guests')
         print('4)Manage Rooms')
-        print('5)Back\n')
+        print('5)Data Analysis')
+        print('6)Back\n')
 
         ch=int(input('Enter choice:'))
         os.system('cls')
@@ -157,4 +220,6 @@ def staffpanel():
         elif ch==4:
             manageRooms()
         elif ch==5:
+            dataAnalysis()
+        elif ch==6:
             break
