@@ -1,4 +1,5 @@
 import mysql.connector as sql
+import pandas as pd 
 import json
 
 config=(json.load(open('config.json')))
@@ -84,72 +85,61 @@ def startup():
 
 def insert_values():
     #Packages
+    
+    Packages =pd.read_excel('Hotel.xlsx' , 'Packages' ).to_dict(orient='list')
+
+    Pkcode=Packages['Pkcode']
+    People=Packages['People']
+    Type=Packages['Type']
+    Details=Packages['Details']
+    Rate=Packages['Rate']
+    Tourism=Packages['Tourism']
+    for i in range(0,len(Pkcode)):
+        cs.execute(f'insert into Packages values({Pkcode[i]},{People[i]},"{Type[i]}","{Details[i]}",{Rate[i]},{Tourism[i]})')
+
+    #Rooms
+    Rooms =pd.read_excel('Hotel.xlsx' , 'Rooms' ).to_dict(orient='list')
+    RoomNo=Rooms['RoomNo']
+    Floor=Rooms['Floor']
+    Status=Rooms['Status']
+    Type=Rooms['Type']
+    rid=Rooms['Reservation id']
+    for i in range(0,len(RoomNo)):
+        cs.execute(f'insert into Rooms values({RoomNo[i]},{Floor[i]},"{Status[i]}","{Type[i]}",{rid[i]})')
+
+
+    #History
+    History =pd.read_excel('Hotel.xlsx' , 'Feedback' ).to_dict(orient='list')
+    fname=History['FirstName']
+    lname=History['LastName']
+    phone=History['PhoneNumber']
+    Pk_Code=History['Pk_Code']
+    Exp=History['Expenses']
+    checkin=History['CheckIn']
+    checkout=History['Checkout']
+    feedback=History['Feedback']
+    comments=History['Comments']
+
+    for i in range(0,len(fname)):
+        cs.execute(f'insert into history values("{fname[i]}","{lname[i]}","0{phone[i]}",{Pk_Code[i]},{Exp[i]},{checkin[i]},{checkout[i]},{feedback[i]},"{comments[i]}")')
+   
+    #Employees
     cs.execute("insert into employees values(101 ,'Anand' , 'IT',20000,'2005-07-23')")
     cs.execute("insert into employees values(102 ,'Max' , 'LifeGuard',5000,'2004-03-21')")
     cs.execute("insert into employees values(103 ,'Gordan' , 'Chef',20000,'2007-02-23')")
 
-    #Packages
-    cs.execute('insert into packages values(1,1,"Standard","Room Only",650,200)')
-    cs.execute('insert into packages values(2,1,"Standard","Room and Breakfast",800,200)')
-    cs.execute('insert into packages values(3,1,"Standard","Full Board",1200,200)')
-    cs.execute('insert into packages values(4,2,"Deluxe","Room Only",800,400)')
-    cs.execute('insert into packages values(5,2,"Deluxe","Room and Breakfast",950,400)')
-    cs.execute('insert into packages values(6,2,"Deluxe","Full Board",1350,400)')
-    cs.execute('insert into packages values(7,4,"Single Suite","Room Only",950,800)')
-    cs.execute('insert into packages values(8,4,"Single Suite","Room and Breakfast",1100,800)')
-    cs.execute('insert into packages values(9,4,"Single Suite","Full Board",1500,800)')
-    cs.execute('insert into packages values(10,6,"Family Suite","Room Only",1350,1200)')
-    cs.execute('insert into packages values(11,6,"Family Suite","Room and Breakfast",1500,1200)')
-    cs.execute('insert into packages values(12,6,"Family Suite","Full Board",2000,1200)')
-
-
+    #Guests
+    cs.execute('insert into Guests values(1004648,12944,"Jordan","Cross","0507313342",NULL)')
+    cs.execute('insert into Guests values(1017095,10435,"Eric","Soders","0524345211",NULL)')
+    cs.execute('insert into Guests values(1083125,10862,"Gilchrist","Tavares","0567681598",302)')
+    
     #Reservations
-    cs.execute('insert into Reservations values(10001,1123456,1,"0561202794","2022/07/12","2022/07/15",3,Null,2150)')
-    cs.execute('insert into Reservations values(10002,1234567,6,"0569312734","2022/07/02","2022/07/04",2,Null,3100)')
-    cs.execute('insert into Reservations values(10115,1203945,4,"0564628228","2022/10/14","2022/10/19",5,Null,3600)')
-    cs.execute('insert into Reservations values(10313,1987654,12,"0562323432","2022/12/30","2023/01/03",4,Null,9200)')
-    cs.execute('insert into Reservations values(10932,1322492,11,"0561249248","2022/06/29","2022/07/07",8,Null,13200)')        
-    
-    #Rooms
-    cs.execute('insert into Rooms values(101,1,"Vacant" ,"Standard",Null)')
-    cs.execute('insert into Rooms values(102,1,"Vacant" ,"Standard",Null)')
-    cs.execute('insert into Rooms values(103,1,"Vacant" ,"Deluxe",Null)')
-    cs.execute('insert into Rooms values(104,1,"Vacant" ,"Deluxe",Null)')
-    cs.execute('insert into Rooms values(105,1,"Vacant" ,"Single Suite",Null)')
-    cs.execute('insert into Rooms values(106,1,"Vacant" ,"Single Suite",Null)')
-    cs.execute('insert into Rooms values(107,1,"Vacant" ,"Family Suite",Null)')
-    cs.execute('insert into Rooms values(108,1,"Vacant" ,"Family Suite",Null)')
-    cs.execute('insert into Rooms values(201,2,"Vacant" ,"Standard",Null)')
-    cs.execute('insert into Rooms values(202,2,"Vacant" ,"Standard",Null)')
-    cs.execute('insert into Rooms values(203,2,"Vacant" ,"Deluxe",Null)')
-    cs.execute('insert into Rooms values(204,2,"Vacant" ,"Deluxe",Null)')
-    cs.execute('insert into Rooms values(205,2,"Vacant" ,"Single Suite",Null)')
-    cs.execute('insert into Rooms values(206,2,"Vacant" ,"Single Suite",Null)')
-    cs.execute('insert into Rooms values(207,2,"Vacant" ,"Family Suite",Null)')
-    cs.execute('insert into Rooms values(208,2,"Vacant" ,"Family Suite",Null)')
-    cs.execute('insert into Rooms values(301,3,"Vacant" ,"Standard",Null)')
-    cs.execute('insert into Rooms values(302,3,"Vacant" ,"Standard",Null)')
-    cs.execute('insert into Rooms values(303,3,"Vacant" ,"Deluxe",Null)')
-    cs.execute('insert into Rooms values(304,3,"Vacant" ,"Deluxe",Null)')
-    cs.execute('insert into Rooms values(305,3,"Vacant" ,"Single Suite",Null)')
-    cs.execute('insert into Rooms values(306,3,"Vacant" ,"Single Suite",Null)')
-    cs.execute('insert into Rooms values(307,3,"Vacant" ,"Family Suite",Null)')
-    cs.execute('insert into Rooms values(308,3,"Vacant" ,"Family Suite",Null)')
+    cs.execute('insert into Reservations values(10435,1017095,7 ,"0524345211","2022-09-02" ,"2022-09-21" ,19,NULL,18050)')
+    cs.execute('insert into Reservations values(10862,1083125,3 ,"0567681598","2022-07-23" ,"2022-07-31" ,8,302,9800)')
+    cs.execute('insert into Reservations values(12944,1004648,11 ,"0507313342","2022-08-20" ,"2022-08-30" ,10,NULL,16200)')
 
-    
+   
     
     db.commit()
 
 
-
-
-
-
-
-#Occupied Rooms
-# cs.execute("""create table if not exists
-#             Occupied_Rooms(RoomNo int primary key,
-#             Guest_ID int not null,
-#             CheckIn datetime not null,
-#             Checkout datetime not null,
-#             Reservation_ID int not null)""")
