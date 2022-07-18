@@ -30,13 +30,13 @@ def manageEmployees():
             sal=int(input('Enter salary:'))
             doj=input('Enter date of join(yyyy/mm/dd):')
             doj=datetime.strptime(doj, '%Y/%m/%d')
-            cs.execute('insert into employees values(%s,"%s","%s",%s,"%s")'%(empcode,name,des,sal,doj))
+            cs.execute(f'insert into employees values({empcode},"{name}","{des}",{sal},"{doj}")')
             db.commit() 
             print('\nEmployee Added')
 
         elif ch==3:
             empcode=int(input('Enter empcode:'))
-            cs.execute('delete from employees where empcode=%s'%(empcode))
+            cs.execute(f'delete from employees where empcode={empcode}')
             db.commit()
             print('\nEmployee Fired')
 
@@ -44,7 +44,7 @@ def manageEmployees():
             empcode=int(input('Enter empcode:'))
             des=input('Enter new designation:')
             sal=int(input('Enter new salary:'))
-            cs.execute('update employees set salary=%s,designation="%s" where empcode=%s'%(sal,des,empcode))
+            cs.execute(f'update employees set salary={sal},designation="{des}" where empcode={empcode}')
             db.commit()
             print('\nEmployee Details Updated')
         elif ch==5:
@@ -68,7 +68,7 @@ def manageReservations():
                 headers=['Reservation ID','Guest ID','PkCode','Phone Number','CheckIn','CheckOut','Nights','RoomNo','Expenses'],tablefmt='fancy_grid'))
         elif ch==2:
             rid=int(input('Enter ReservationID:'))
-            cs.execute('delete from reservations where Reservation_ID=%s'%(rid))
+            cs.execute(f'delete from reservations where Reservation_ID={rid}')
             db.commit()
             print('\n Reservation Deleted')
         elif ch==3:
@@ -98,7 +98,7 @@ def manageGuests():
             headers=['GuestID','ReservationID','First Name','Last Name','Phone Number','RoomNo'],tablefmt='fancy_grid'))
         elif ch==3:
             gid=int(input('Enter GuestID:'))
-            cs.execute('delete from Guests where Guest_ID=%s'%(gid))
+            cs.execute(f'delete from Guests where Guest_ID={gid}')
             db.commit()
             print('\nGuest Details Deleted')        
         elif ch==4:

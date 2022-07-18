@@ -15,7 +15,7 @@ def createReservation():
     pkchoice=int(input("Select the package:"))
     os.system('cls')         
 
-    cs.execute("select* from packages where pk_code=%s"%(pkchoice))
+    cs.execute(f"select* from packages where pk_code={pkchoice}")
     r=cs.fetchall()
     package=r[0]
     pkcode,_,_,_,rate,tourism=package 
@@ -40,15 +40,13 @@ def createReservation():
     guestid=1000000+randint(0,99999)
     rid=10000+randint(0,9999)           
     
-    cs.execute("insert into reservations values(%s,%s,%s,'%s','%s','%s',%s,%s,%s)"
-    %(rid,guestid,pkchoice,ph,checkin_d,checkout_d,days,"NULL",cost))
-    cs.execute("insert into Guests values(%s,%s,'%s','%s','%s',Null)"
-    %(guestid,rid,fname,lname,ph))
+    cs.execute(f"insert into reservations values({rid},{guestid},{pkchoice},'{ph}','{checkin_d}','{checkout_d}',{days},Null,{cost})")
+    cs.execute(f"insert into Guests values({guestid},{rid},'{fname}','{lname}','{ph}',Null)")
     db.commit()
     print('Reservation Made')
 def checkIn():
     phonenum=input('Enter Phone Number:')
-    cs.execute('select * from reservations where Phone_Number="%s"'%(phonenum))
+    cs.execute(f'select * from reservations where Phone_Number="{phonenum}"')
     result=cs.fetchall()
 
     reservation=result[0]
@@ -56,10 +54,10 @@ def checkIn():
     if RoomNo!=None:
         print('You have already CheckedIn')
         return
-    cs.execute('select * from packages where Pk_code=%s'%(Pkcode))
+    cs.execute(f'select * from packages where Pk_code={Pkcode}')
     package=cs.fetchall()[0]
     RoomType=package[2]
-    cs.execute('select RoomNo,Floor,Status,Type from Rooms where Type="%s" and Status="Vacant"'%(RoomType))
+    cs.execute(f'select RoomNo,Floor,Status,Type from Rooms where Type="{RoomType}" and Status="Vacant"')
     rooms=cs.fetchall()
     print('\n')            
     print('\t Available Rooms \t')
@@ -67,31 +65,30 @@ def checkIn():
     print(tabulate(rooms,headers=['RoomNo','Floor','Status','Type'],tablefmt='fancy_grid'))
     print('\n')
     roomchoice=int(input('Enter room number:'))
-    cs.execute('select * from Rooms where RoomNo=%s and Status="Vacant" and Type="%s"'
-    %(roomchoice,RoomType))
+    cs.execute(f'select * from Rooms where RoomNo={roomchoice} and Status="Vacant" and Type="{RoomType}"')
     selected=cs.fetchall()
     if len(selected)==0:
         print('Room not Availaible')
         return;
 
-    cs.execute('update Rooms set Status="Occupied",ReservationID=%s where RoomNo=%s'%(rid,roomchoice))
-    cs.execute('update guests set RoomNo=%s where Guest_ID=%s' %(roomchoice,gid))
-    cs.execute('update reservations set RoomNo=%s where Reservation_ID=%s'%(roomchoice,rid))
+    cs.execute(f'update Rooms set Status="Occupied",ReservationID={rid} where RoomNo={roomchoice}')
+    cs.execute(f'update guests set RoomNo={roomchoice} where Guest_ID={gid}')
+    cs.execute(f'update reservations set RoomNo={roomchoice} where Reservation_ID={rid}')
     db.commit()
     print()
     print('Successfully CheckedIn Enjoy your stay\n')
     #Receipt
-    cs.execute('select * from Guests where Guest_ID=%s'%(gid))
+    cs.execute(f'select * from Guests where Guest_ID={gid}')
     guest=cs.fetchall()[0]
     _,_,fname,lname,_,_=guest
     print('Receipt\n')
-    print('Name:%s %s'%(fname,lname))
-    print('Phone Number:%s'%(phonenum))
-    print('ReservationID:%s'%(rid))
-    print('RoomNo:%s'%(roomchoice))    
+    print(f'Name:{fname} {lname}')
+    print(f'Phone Number:{phonenum}')
+    print(f'ReservationID:{rid}')
+    print(f'RoomNo:{roomchoice}')    
 def checkOut():
     phonenum=input('Enter Phone Number:')
-    cs.execute('select * from reservations where Phone_Number="%s"'%(phonenum))
+    cs.execute(f'select * from reservations where Phone_Number="{phonenum}"')
     result=cs.fetchall()
     if(len(result)==0):
         print('Invalid Phone Number')
@@ -102,17 +99,17 @@ def checkOut():
         print('You cannot CheckOut')
         return
 
-    cs.execute('select First_Name,Last_Name from Guests where Phone_Number="%s"'%(phonenum))
+    cs.execute(f'select First_Name,Last_Name from Guests where Phone_Number="{phonenum}"')
     fname,lname=cs.fetchall()[0]
 
-    score=int(input('On a scale of 1-10 how would you rate your stay %s:'%(fname)))
+    score=int(input(f'On a scale of 1-10 how would you rate your stay {fname}:'))
     if score<1 or score>10:
         print('Invalid Score')
         return
     comments=input('Anything You want to say about your stay?\n')
-    cs.execute('update Rooms set Status="Cleaning",ReservationID=NULL where RoomNo=%s'%(RoomNo))
-    cs.execute('delete from Guests where Guest_ID=%s'%(gid))
-    cs.execute('delete from reservations where Reservation_ID=%s'%(rid))
+    cs.execute(f'update Rooms set Status="Cleaning",ReservationID=NULL where RoomNo={RoomNo}')
+    cs.execute(f'delete from Guests where Guest_ID={gid}')
+    cs.execute(f'delete from reservations where Reservation_ID={rid}')
     cs.execute(f'insert into history values("{fname}","{lname}","{phonenum}",{Pkcode},{Expenses},"{CheckIn}","{Checkout}",{score},"{comments}")')
     db.commit()
 
