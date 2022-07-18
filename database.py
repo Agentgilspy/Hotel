@@ -68,10 +68,10 @@ def startup():
     """)
     #History
     cs.execute("""create table if not exists
-                History(GuestID int primary key,
-                First_Name varchar(20) not null,
+                History(First_Name varchar(20) not null,
                 Last_Name varchar(20) not null,
-                Phone_Number char(10) not null,
+                Phone_Number char(10) primary key,
+                Pk_code int not null,
                 Expenses int not null,
                 CheckIn date not null,
                 Checkout date not null,
