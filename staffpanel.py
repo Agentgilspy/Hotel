@@ -111,7 +111,8 @@ def manageRooms():
         print('2)View all Vacant Rooms')
         print('3)View all Occupied Rooms')
         print('4)View all Rooms with Cleaning Status')
-        print('5)Back')
+        print('5)Change Room Status')
+        print('6)Back')
 
         ch=int(input('Enter choice:'))
         print()
@@ -138,6 +139,12 @@ def manageRooms():
             print(tabulate(result,
             headers=['RoomNo','Floor','Type'],tablefmt='fancy_grid'))
         elif ch==5:
+            room=int(input('Enter Room Number:'))
+            status=input('Enter status(Cleaning/Vacant):')
+            cs.execute(f'update rooms set status={status} where RoomNo={room}')
+            db.commit()
+            print('Room Status Updated')
+        elif ch==6:
             break
 
 def dataAnalysis():
