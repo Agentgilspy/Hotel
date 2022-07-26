@@ -4,8 +4,6 @@ from tabulate import tabulate
 from datetime import datetime
 import matplotlib.pyplot as plt
 import pandas as pd 
-import openpyxl
-
 
 def manageReservations():
     while True:
