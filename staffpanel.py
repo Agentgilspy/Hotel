@@ -6,49 +6,6 @@ import matplotlib.pyplot as plt
 import pandas as pd 
 import openpyxl
 
-def manageEmployees():
-    while True:
-        print('\nEmployee Management\n')
-        print("1)View all Employees")
-        print("2)Add an employee")
-        print("3)Fire an Employee")
-        print("4)Update Employee Details")
-        print("5)Back\n")
-            
-        ch=int(input('Enter choice:'))
-        print()
-        os.system('cls')
-        if ch==1:
-            cs.execute('select * from employees')
-            result=cs.fetchall()
-            print(tabulate(result , headers=['Empcode','Name','Designation','Salary','Date of join'],tablefmt='fancy_grid'))
-        
-        elif ch==2:
-            empcode=int(input('Enter empcode:'))
-            name=input('Enter name:')
-            des=input('Enter designation:')
-            sal=int(input('Enter salary:'))
-            doj=input('Enter date of join(yyyy/mm/dd):')
-            doj=datetime.strptime(doj, '%Y/%m/%d')
-            cs.execute(f'insert into employees values({empcode},"{name}","{des}",{sal},"{doj}")')
-            db.commit() 
-            print('\nEmployee Added')
-
-        elif ch==3:
-            empcode=int(input('Enter empcode:'))
-            cs.execute(f'delete from employees where empcode={empcode}')
-            db.commit()
-            print('\nEmployee Fired')
-
-        elif ch==4:
-            empcode=int(input('Enter empcode:'))
-            des=input('Enter new designation:')
-            sal=int(input('Enter new salary:'))
-            cs.execute(f'update employees set salary={sal},designation="{des}" where empcode={empcode}')
-            db.commit()
-            print('\nEmployee Details Updated')
-        elif ch==5:
-            break
 
 def manageReservations():
     while True:
@@ -79,8 +36,7 @@ def manageGuests():
         print('\nGuest Management\n')
         print('1)View All Guests')
         print('2)View all Guests In the Hotel')
-        print('3)Delete Guest Details')
-        print('4)Back')
+        print('3)Back')
 
         ch=int(input('Enter choice:'))
         print()
@@ -96,12 +52,8 @@ def manageGuests():
             result=cs.fetchall()
             print(tabulate(result,
             headers=['GuestID','ReservationID','First Name','Last Name','Phone Number','RoomNo'],tablefmt='fancy_grid'))
+
         elif ch==3:
-            gid=int(input('Enter GuestID:'))
-            cs.execute(f'delete from Guests where Guest_ID={gid}')
-            db.commit()
-            print('\nGuest Details Deleted')        
-        elif ch==4:
             break
 
 def manageRooms():
@@ -141,31 +93,26 @@ def manageRooms():
         elif ch==5:
             room=int(input('Enter Room Number:'))
             status=input('Enter status(Cleaning/Vacant):')
-            cs.execute(f'update rooms set status={status} where RoomNo={room}')
+            cs.execute(f'update rooms set status="{status}" where RoomNo={room}')
             db.commit()
-            print('Room Status Updated')
+            cs.execute(f'select RoomNo,Floor,Status,Type from rooms where roomno={room}')
+            result=cs.fetchall()
+            print(tabulate(result,tablefmt='fancy_grid',headers=['RoomNo','Floor','Status','Type']))
         elif ch==6:
             break
 
 def dataAnalysis():
     while True:
         print('\nData Analysis\n')
-        print('1)View Visitor History')
-        print('2)Plot Bar Graph of Feedbacks (Pkcodes/Feedback)')
-        print('3)Plot Bar Graph of Visits (Month/Visits)')
-        print('4)Create a xlsx file of Visitor History')
-        print('5)Back')
+        print('1)Plot Bar Graph of Feedbacks (Pkcodes/Feedback)')
+        print('2)Plot Bar Graph of Visits (Month/Visits)')
+        print('3)Create a xlsx file of Visitor History')
+        print('4)Back')
 
         ch=int(input('Enter choice:'))
         os.system('cls')
 
         if ch==1:
-            cs.execute('select * from history')
-            result=cs.fetchall()
-            print(tabulate(result,
-            headers=['First Name','Last Name','Phone Number','Pk_Code','Expenses',
-            'CheckIn','Checkout','FeedBack','Comments'],tablefmt='fancy_grid'))
-        elif ch==2:
             cs.execute('select Pk_code,avg(feedback) from history group by Pk_code order by Pk_code')
             result=cs.fetchall()
             pkcodes=[str(row[0]) for row in result]
@@ -175,7 +122,7 @@ def dataAnalysis():
             plt.xlabel('Package Code')
             plt.ylabel('Score')
             plt.show()
-        elif ch==3:
+        elif ch==2:
             cs.execute('select month(CheckIn),Count(Checkin) from history group by month(CheckIn) order by month(CheckIn);')
             result=cs.fetchall()
             months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec']
@@ -189,7 +136,7 @@ def dataAnalysis():
             plt.xlabel('Month')
             plt.ylabel('Visits')
             plt.show()
-        elif ch==4:
+        elif ch==3:
             cs.execute('select * from history')
             result=cs.fetchall()
             data={
@@ -206,30 +153,27 @@ def dataAnalysis():
             dt=pd.DataFrame(data)
             dt.to_excel('Visitors.xlsx',index=False)
             os.system('Visitors.xlsx')
-        elif ch==5:
+        elif ch==4:
             break
 
 def staffpanel():
     while True:
         os.system('cls')
-        print('\n1)Manage Employees')
-        print('2)Manage Reservations')
-        print('3)Manage Guests')
-        print('4)Manage Rooms')
-        print('5)Data Analysis')
-        print('6)Back\n')
+        print('\n1)Manage Reservations')
+        print('2)Manage Guests')
+        print('3)Manage Rooms')
+        print('4)Data Analysis')
+        print('5)Back\n')
 
         ch=int(input('Enter choice:'))
         os.system('cls')
         if ch==1:
-            manageEmployees()
-        elif ch==2:
             manageReservations()
-        elif ch==3:
+        elif ch==2:
             manageGuests()
-        elif ch==4:
+        elif ch==3:
             manageRooms()
-        elif ch==5:
+        elif ch==4:
             dataAnalysis()
-        elif ch==6:
+        elif ch==5:
             break
