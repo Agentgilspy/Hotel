@@ -8,6 +8,7 @@ from staffpanel import *
 startup()
 while True:
     os.system('cls')
+    print('The Paradise')
     print("\n1)Staff")
     print("2)User\n")
     ch=int(input('Enter choice:'))
