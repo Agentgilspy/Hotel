@@ -83,6 +83,11 @@ def startup():
     """)
     print('Startup Done')
 
+    cs.execute('select count(*) from rooms')
+    count=cs.fetchone()[0]
+    if count!=24:
+        insert_values()
+
 def insert_values():
     #Packages
     
