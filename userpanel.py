@@ -52,7 +52,7 @@ def checkIn():
     reservation=result[0]
     rid,gid,Pkcode,_,CheckIn,Checkout,_,RoomNo,Expenses = reservation
     if RoomNo!=None:
-        print('You have already CheckedIn')
+        print('You have already checked in')
         return
     cs.execute(f'select * from packages where Pk_code={Pkcode}')
     package=cs.fetchall()[0]
@@ -76,7 +76,7 @@ def checkIn():
     cs.execute(f'update reservations set RoomNo={roomchoice} where Reservation_ID={rid}')
     db.commit()
     print()
-    print('Successfully CheckedIn Enjoy your stay\n')
+    print('Successfully checked in Enjoy your stay\n')
     #Receipt
     cs.execute(f'select * from Guests where Guest_ID={gid}')
     guest=cs.fetchall()[0]
@@ -118,8 +118,8 @@ def checkOut():
 def userpanel():
     
     while True:
-        print('\n')
-        print('Welcome to the Paradise\n')
+        print('')
+        print('Welcome to The Paradise\n')
         print("""
 1)Make a Reservation
 2)CheckIn
