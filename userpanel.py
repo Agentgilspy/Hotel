@@ -88,17 +88,7 @@ def checkIn():
     cs.execute(f'update guests set RoomNo={roomchoice} where Guest_ID={gid}')
     cs.execute(f'update reservations set RoomNo={roomchoice} where Reservation_ID={rid}')
     db.commit()
-    print()
-    print('Successfully checked in Enjoy your stay\n')
-    #Receipt
-    cs.execute(f'select * from Guests where Guest_ID={gid}')
-    guest=cs.fetchall()[0]
-    _,_,fname,lname,_,_=guest
-    print('Receipt\n')
-    print(f'Name:{fname} {lname}')
-    print(f'Phone Number:{phonenum}')
-    print(f'ReservationID:{rid}')
-    print(f'RoomNo:{roomchoice}')    
+       
 def checkOut():
     phonenum=input('Enter Phone Number:')
     cs.execute(f'select * from reservations where Phone_Number="{phonenum}"')
