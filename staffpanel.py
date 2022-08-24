@@ -164,7 +164,6 @@ def staffpanel():
         print('5)Back\n')
 
         ch=int(input('Enter choice:'))
-        os.system('cls')
         if ch==1:
             manageReservations()
         elif ch==2:
