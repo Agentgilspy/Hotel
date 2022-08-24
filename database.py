@@ -2,12 +2,10 @@ import mysql.connector as sql
 import pandas as pd 
 import json
 
-config=(json.load(open('config.json')))
-
     
-db = sql.connect(host=config['host'] ,
-                user=config['user'] ,
-                password=config['password'])
+db = sql.connect(host='localhost' ,
+                user='root' ,
+                password='gilchrist')
 
 cs=db.cursor()
 cs.execute('create database if not exists hotel')
@@ -46,8 +44,7 @@ def startup():
                 constraint check_PkCode check (PkCode between 1 and 12) 
                 )
                 
-    """)# Checked in boolean shows as 1 and 0 in the table
-
+    """)
     #Employees
     cs.execute("""create table if not exists
                 Employees(Empcode int primary key,
