@@ -83,11 +83,30 @@ def checkIn():
     if len(selected)==0:
         print('Room not Availaible')
         return;
-
+    cs.execute(f'select * from Guests where Guest_ID={gid}')
+    guest=cs.fetchall()[0]
+    _,_,fname,lname,_,_=guest
+    mop=input('Enter mode of payment(Cash/Card):').upper()
+    print('\n=======================================')
+    print('\t\t Bill\n\n')
+    print(f' Name:{fname} {lname}')
+    print(f' Phone Number: {phonenum}')
+    print(f' Reservation ID: {rid}')
+    print(f' CheckInDate: {CheckIn}')
+    print(f' Checkout Date: {Checkout}')
+    print(f' Payment Mode: {mop}')
+    print(f' Expenses: {Expenses} AED')
+    print('\n\tPlease Pay at the counter')
+    print('\n======================================')
     cs.execute(f'update Rooms set Status="Occupied",ReservationID={rid} where RoomNo={roomchoice}')
     cs.execute(f'update guests set RoomNo={roomchoice} where Guest_ID={gid}')
     cs.execute(f'update reservations set RoomNo={roomchoice} where Reservation_ID={rid}')
     db.commit()
+    print()    
+    print('Successfully checked in you may collect your room key card from the kiosk')
+    print('Enjoy your stay\n')
+    
+    
        
 def checkOut():
     phonenum=input('Enter Phone Number:')
