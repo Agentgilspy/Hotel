@@ -6,9 +6,9 @@ from random import randint
 
 
 def createReservation():
-    cs.execute('select* from packages')
+    cs.execute('select * from packages')
     r=cs.fetchall()
-    print('Hotel name Packages \n\n')
+    print('\n\t\t\t\t\tPackages \n\n')
     print(tabulate(r , headers=['PkCode' , "People" , 'Room Type' , 'Package Details', 'Cost Per Night' , 'Tourism'],tablefmt='fancy_grid'))
     print('\n\n')
     
@@ -18,12 +18,12 @@ def createReservation():
     cs.execute(f"select* from packages where pk_code={pkchoice}")
     r=cs.fetchall()
     package=r[0]
-    pkcode,_,_,_,rate,tourism=package 
+    pkcode,_,room_type,pk_type,rate,tourism=package 
     print(f'Package {pkchoice} selected')
     checkIn=input('Enter Check in Date(yyyy/mm/dd):')
     checkOut=input('Enter Check Out Date(yyyy/mm/dd):')
-    checkin_d = datetime.strptime(checkIn, '%Y/%m/%d') 
-    checkout_d = datetime.strptime(checkOut, '%Y/%m/%d')
+    checkin_d = datetime.strptime(checkIn, '%Y/%m/%d').date()
+    checkout_d = datetime.strptime(checkOut, '%Y/%m/%d').date()
     days = (checkout_d - checkin_d).days
     if days<0:
         print('Invalid Dates Provided')
@@ -38,12 +38,25 @@ def createReservation():
         cost+=tourism
     
     guestid=1000000+randint(0,99999)
-    rid=10000+randint(0,9999)           
-    
+    rid=10000+randint(0,9999)
     cs.execute(f"insert into reservations values({rid},{guestid},{pkchoice},'{ph}','{checkin_d}','{checkout_d}',{days},Null,{cost})")
     cs.execute(f"insert into Guests values({guestid},{rid},'{fname}','{lname}','{ph}',Null)")
     db.commit()
     print('Reservation Made')
+    print('\n=======================================')
+    print('\t\t Receipt\n\n')
+    print(f' Name:{fname} {lname}')
+    print(f' Phone Number: {ph}')
+    print(f' Reservation ID: {rid}')
+    print(f' CheckInDate: {checkin_d}')
+    print(f' Checkout Date: {checkout_d}')
+    print(f' Days: {days}')
+    print(f' Package Type : {pk_type}')
+    print(f' Room Type : {room_type}')     
+    print(f' Expenses: {cost} AED')
+    print('\n======================================')
+
+
 def checkIn():
     phonenum=input('Enter Phone Number:')
     cs.execute(f'select * from reservations where Phone_Number="{phonenum}"')
