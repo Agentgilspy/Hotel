@@ -99,10 +99,10 @@ def manageRooms():
             print(tabulate(result,
             headers=['RoomNo','Floor','Type','ReservationID'],tablefmt='fancy_grid'))
         elif ch==4:
-            cs.execute("select RoomNo,Floor,Type from Rooms where Status='Cleaning'")
+            cs.execute("select RoomNo,Floor,Status,Type from Rooms where Status='Cleaning'")
             result=cs.fetchall()
             print(tabulate(result,
-            headers=['RoomNo','Floor','Type'],tablefmt='fancy_grid'))
+            headers=['RoomNo','Floor','Status','Type'],tablefmt='fancy_grid'))
         elif ch==5:
             room=int(input('Enter Room Number:'))
             status=input('Enter status(Cleaning/Vacant):')
