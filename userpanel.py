@@ -29,6 +29,11 @@ def createReservation():
         print('Invalid Dates Provided')
         return
 
+    cs.execute(f"select count(*) from rooms where type='{room_type}' and status='Vacant'")
+    count=cs.fetchone()[0]
+    if count==0:
+        print('\nThere are no vacant rooms available\n')
+        return
     fname=input('Enter first name:')
     lname=input('Enter last name:')
     ph=input("Enter phone number:")
