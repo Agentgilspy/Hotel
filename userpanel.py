@@ -36,6 +36,15 @@ def createReservation():
     torsm=input("Do you want tourism(y/n):")
     if torsm=='y':
         cost+=tourism
+
+    if 'Breakfast' in pk_type or 'Board' in pk_type:
+        cs.execute('select * from cuisine')
+        cuisines=cs.fetchall()
+        print(tabulate(cuisines,headers=['C.No','Cuisine','Additional Cost'],tablefmt='fancy_grid'))
+        cuisine=int(input('Enter C.No:'))
+        cs.execute(f'select * from cuisine where c_no={cuisine}')
+        _,cuisineName,cuisinecost=cs.fetchone()
+        cost+=cuisinecost
     
     guestid=1000000+randint(0,99999)
     rid=10000+randint(0,9999)
