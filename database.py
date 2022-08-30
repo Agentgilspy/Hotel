@@ -1,11 +1,8 @@
 import mysql.connector as sql
-import pandas as pd 
-import json
+import pandas as pd
 
     
-db = sql.connect(host='localhost' ,
-                user='root' ,
-                password='gilchrist')
+db = sql.connect(host='localhost',user='root',password='gilchrist')
 
 cs=db.cursor()
 cs.execute('create database if not exists hotel')
@@ -13,6 +10,12 @@ cs.execute('use hotel')
 
 
 def startup():
+
+    #Cuisines
+    cs.execute("""create table if not exists 
+                Cuisine(C_No int primary key,
+                Cuisine varchar(20),
+                Cost int)""")
 
     #Rooms
     cs.execute("""create table if not exists 
@@ -78,6 +81,7 @@ def startup():
                 )
 
     """)
+    
     print('Startup Done')
 
     cs.execute('select count(*) from rooms')
@@ -140,7 +144,15 @@ def insert_values():
     cs.execute('insert into Reservations values(10862,1083125,3 ,"0567681598","2022-07-23" ,"2022-07-31" ,8,302,9800)')
     cs.execute('insert into Reservations values(12944,1004648,11 ,"0507313342","2022-08-20" ,"2022-08-30" ,10,NULL,16200)')
 
-   
+   #Cuisines
+    cs.execute('insert into Cuisine values(1,"Indian",150)')
+    cs.execute('insert into Cuisine values(2,"Continental",300)')
+    cs.execute('insert into Cuisine values(3,"Chinese",150)')
+    cs.execute('insert into Cuisine values(4,"Mediterranean",300)')
+    cs.execute('insert into Cuisine values(5,"Japanese",200)')
+    cs.execute('insert into Cuisine values(6,"American",250)')
+    cs.execute('insert into Cuisine values(7,"Thai",250)')
+    cs.execute('insert into Cuisine values(8,"Turkish",300)')
     
     db.commit()
 
