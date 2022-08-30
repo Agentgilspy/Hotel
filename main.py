@@ -9,7 +9,7 @@ startup()
 while True:
     os.system('cls')
     print('The Paradise')
-    print("\n1)Staff")
+    print("\n1)Admin")
     print("2)User\n")
     ch=int(input('Enter choice:'))
     os.system('cls')
