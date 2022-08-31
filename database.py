@@ -137,7 +137,6 @@ def insert_values():
     #Guests
     cs.execute('insert into Guests values(1004648,12944,"Jordan","Cross","0507313342",NULL)')
     cs.execute('insert into Guests values(1017095,10435,"Eric","Soders","0524345211",NULL)')
-    cs.execute('insert into Guests values(1083125,10862,"Gilchrist","Tavares","0567681598",302)')
     
     #Reservations
     cs.execute('insert into Reservations values(10435,1017095,7 ,"0524345211","2022-09-02" ,"2022-09-21" ,19,NULL,18050)')
