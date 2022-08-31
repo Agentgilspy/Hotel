@@ -95,7 +95,7 @@ def checkIn():
     cs.execute(f'select * from Rooms where RoomNo={roomchoice} and Status="Vacant" and Type="{RoomType}"')
     selected=cs.fetchall()
     if len(selected)==0:
-        print('Room not Availaible')
+        print('No Room Available')
         return;
     cs.execute(f'select * from Guests where Guest_ID={gid}')
     guest=cs.fetchall()[0]
