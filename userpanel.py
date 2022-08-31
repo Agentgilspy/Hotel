@@ -29,11 +29,19 @@ def createReservation():
         print('Invalid Dates Provided')
         return
 
-    cs.execute(f"select count(*) from rooms where type='{room_type}' and status='Vacant'")
-    count=cs.fetchone()[0]
-    if count==0:
-        print('\nThere are no vacant rooms available\n')
+    pk_room ={
+        "Standard":"1,2,3",
+        "Deluxe":"4,5,6",
+        "Single Suite":"7,8,9",
+        "Family Suite":"10,11,12"
+    }
+    cs.execute(f""" select count(*) from reservations
+     where "{CheckIn}" between CheckIn and Checkout and PkCode in ({pk_room[RoomType]})""")
+    count,=cs.fetchone()
+    if count>=6:
+        print('\n Our rooms are completely booked , Sorry \n')
         return
+        
     fname=input('Enter first name:')
     lname=input('Enter last name:')
     ph=input("Enter phone number:")
