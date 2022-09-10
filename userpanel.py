@@ -36,7 +36,7 @@ def createReservation():
         "Family Suite":"10,11,12"
     }
     cs.execute(f""" select count(*) from reservations
-     where "{CheckIn}" between CheckIn and Checkout and PkCode in ({pk_room[RoomType]})""")
+     where "{checkin_d}" between CheckIn and Checkout and PkCode in ({pk_room[room_type]})""")
     count,=cs.fetchone()
     if count>=6:
         print('\n Our rooms are completely booked , Sorry \n')
