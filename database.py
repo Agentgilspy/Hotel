@@ -2,7 +2,7 @@ import mysql.connector as sql
 import pandas as pd
 
     
-db = sql.connect(host='localhost',user='root',password='gilchrist')
+db = sql.connect(host='localhost',user='root',password='test')
 
 cs=db.cursor()
 cs.execute('create database if not exists hotel')
